@@ -1,0 +1,63 @@
+-A "test double" is a term used in software testing and development to refer to a type of object or component that is used as a substitute for a real system component during testing. 
+
+
+-In Java, mock() is a method provided by the Mockito library, which is a popular framework for creating and working with mock objects in unit testing. The mock() method is used to create a mock object of a given class or interface.
+
+// Create a mock object of a specific class or interface
+SomeClassOrInterface mockObject = mock(SomeClassOrInterface.class);
+
+-To use Mockito in your Java code, you need to import the static methods from the org.mockito.Mockito class. This is typically done at the top of your Java file using the following import statement:
+import static org.mockito.Mockito.*;
+Importing these static methods allows you to use Mockito's mocking capabilities.
+
+Create a Mock Object: The mock() method is then used to create a mock object of a specific class or interface. You specify the class or interface you want to mock within the angle brackets (< >) as the type parameter. 
+List<String> mockedList = mock(List.class);
+
+In this example, a mock object of the List interface with String elements is created and assigned to the mockedList variable. This mock object behaves like a List but doesn't have any real implementation.
+
+Once you have created a mock object, you can define its behavior for specific method calls using Mockito's methods, such as when(), thenReturn(), and verify()
+
+-In Mockito, the verify() method is used to verify that specific methods of a mock object have been called with certain arguments and a specific number of times.
+
+stubbing" refers to the process of defining specific behaviors or return values for methods of a mock object. 
+When you stub a method, you are essentially telling the mock object how it should respond when that method is called during a test.
+This is done using the when() method along with thenReturn(), thenThrow(), or other methods.
+
+List<String> mockedList = mock(List.class);
+when(mockedList.size()).thenReturn(5);
+you're stubbing the size() method of the mock list to always return 5 when called.
+
+thenAnswer?
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+class Calculator {
+    public double divide(double numerator, Double denominator) {
+        if (denominator == null) {
+            throw new IllegalArgumentException();
+        }
+        return numerator / denominator;
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------
+public class CalculatorTest {
+
+    @Test
+    public void testDivideWithNullDenominator() {
+        // Create a mock of the Calculator class
+        Calculator mockCalculator = mock(Calculator.class);
+
+        // Stub the divide method to throw an exception when 'denominator' is null
+        when(mockCalculator.divide(anyDouble(), isNull())).thenThrow(new IllegalArgumentException());
+
+        // Use assertThrows to check for the expected exception
+        assertThrows(IllegalArgumentException.class, () -> {
+            mockCalculator.divide(10.0, null);
+        });
+
+        // Verify that the divide method was called with the specified arguments
+        verify(mockCalculator).divide(10.0, null);
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------
